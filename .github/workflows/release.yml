@@ -16,26 +16,31 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set Node
+      - name: Install PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: '9.7.1'
+          run_install: false
+
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: pnpm
+          registry-url: https://registry.npmjs.org
 
-      - name: Install PNPM
-        uses: pnpm/action-setup@v4
-        with:
-          version: '9.7.0'
-
-      - run: pnpm build
-      - run: pnpm test
+      - name: Install and build
+        run: |
+          pnpm install --frozen-lockfile # npm ci
+          pnpm build 
+          pnpm test
 
       - run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - uses: JS-DevTools/npm-publish@v3
-        name: Publish to NPM
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          registry: 'https://registry.npmjs.org/'
+      - name: Publish to NPM 🚀
+        shell: bash
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,64 @@
+{
+  "name": "xdw",
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.7.0",
+  "description": "Build a packager with bundle or run tsc directories, suitable for node|browser library package processing, It is implemented using esbuild",
+  "license": "MIT",
+  "keywords": [
+    "tsup",
+    "package.json",
+    "mkdist",
+    "build",
+    "esbuild",
+    "bundle",
+    "pkg",
+    "package",
+    "rollup",
+    "pnpm",
+    "monorepo"
+  ],
+  "main": "index.ts",
+  "bin": {
+    "xd": "bin/index.js"
+  },
+  "publishConfig": {
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "directory": "dist",
+    "linkDirectory": false
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp && pnpm publish",
+    "build": "node bin/index.cjs -r src --dts --meta --clean"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "bumpp": "^9.0.0",
+    "cac": "^6.7.14",
+    "esbuild": "^0.17.10",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.1.0",
+    "lnk": "^1.1.0",
+    "lodash": "^4.17.21",
+    "pascal-case": "^3.1.2",
+    "rimraf": "^4.1.2",
+    "rollup": "^3.17.2",
+    "rollup-plugin-dts": "^5.2.0",
+    "slash": "3.0.0",
+    "typescript": "^4.9.5",
+    "unconfig": "^0.3.7"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.14.0",
+    "esbuild-register": "^3.6.0",
+    "eslint": "^8.34.0",
+    "vitest": "^0.31.3"
+  }
+}
